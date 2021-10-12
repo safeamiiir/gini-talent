@@ -27,7 +27,7 @@ function calculateCommissionFees(data) {
       // variable
       let withBonusList = {};
       const cash_in_percentage = cash_in_response.percents;
-      const cash_in_min = cash_in_response.amount;
+      const cash_in_min = cash_in_response.max.amount;
       const cash_out_natural_percentage = cash_out_natural_response.percents;
       const cash_out_natural_discharge =
         cash_out_natural_response.week_limit.amount;
