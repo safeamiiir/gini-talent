@@ -7,7 +7,6 @@ function fetch(key) {
     url: `${APIConfig.hostname}${endpoint.url}`,
     method: endpoint.method,
     timeout: APIConfig.timeout,
-    withCredentials: true,
   });
 }
 

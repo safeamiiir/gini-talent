@@ -1,9 +1,8 @@
 module.exports = {
   hostname: 'https://private-00d723-paysera.apiary-proxy.com',
   timeout: 20000, // in ms
-  validateStatus: (status) => status >= 200 && status <= 400,
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Type': 'application/json',
   },
   endpoints: [
     {

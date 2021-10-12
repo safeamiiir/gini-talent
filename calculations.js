@@ -48,17 +48,15 @@ function calculateCommissionFees(data) {
           // 2- For Cash Out
           if (operation.user_type === USER_TYPES.NATURAL) {
             // 2/1- Natural Persons
-            return CalculateCashOutCommissionFee(
+            return CalculateCashOutNaturalCommissionFee(
               handleBonus(operation, withBonusList),
-              operation.user_type,
               cash_out_natural_percentage,
               cash_out_natural_discharge
             );
           } else if (operation.user_type === USER_TYPES.JURIDICAL) {
             // 2/2- Legal persons
-            return CalculateCashOutCommissionFee(
+            return CalculateCashOutJuridicalCommissionFee(
               operation,
-              operation.user_type,
               cash_out_juridical_percentage,
               cash_out_juridical_min
             );
@@ -75,38 +73,39 @@ function CalculateCashInCommissionFee(data, cash_in_percentage, cash_in_min) {
   return fee > cash_in_min ? RoundUp(cash_in_min, 2) : RoundUp(fee, 2);
 }
 
-function CalculateCashOutCommissionFee(
+function CalculateCashOutNaturalCommissionFee(
   data,
-  user_type,
   cash_out_percentage,
-  additional
+  cash_out_natural_discharge
 ) {
-  switch (user_type) {
-    case USER_TYPES.NATURAL:
-      const base_fee =
-        (data.operation.amount - (data.hasBonus ? additional : 0)) *
-        cash_out_percentage *
-        0.01;
-      return base_fee > 0 ? RoundUp(base_fee, 2) : RoundUp(0, 2);
-    case USER_TYPES.JURIDICAL:
-      const fee = data.operation.amount * cash_out_percentage * 0.01;
-      return additional > fee ? RoundUp(additional, 2) : RoundUp(fee, 2);
-  }
+  const fee =
+    (data.operation.amount - (data.hasBonus ? cash_out_natural_discharge : 0)) *
+    cash_out_percentage *
+    0.01;
+  return fee > 0 ? RoundUp(fee, 2) : RoundUp(0, 2);
+}
+
+function CalculateCashOutJuridicalCommissionFee(
+  data,
+  cash_out_percentage,
+  cash_out_juridical_min
+) {
+  const fee = data.operation.amount * cash_out_percentage * 0.01;
+  return cash_out_juridical_min > fee
+    ? RoundUp(cash_out_juridical_min, 2)
+    : RoundUp(fee, 2);
 }
 
 function handleBonus(operation, withBonusList) {
-  if (!withBonusList[operation.user_id]) {
-    // no bonus gained
-    withBonusList[operation.user_id] = [operation.date];
-    return { ...operation, hasBonus: true };
-  } else if (
+  if (
     // in the week but bonus is gained!
     withBonusList[operation.user_id] &&
     isInWeekRange(operation.date, withBonusList[operation.user_id])
   ) {
     return operation;
   } else {
-    // new week and should reset bonus
+    // no bonus gained
+    // or new week and should reset bonus
     withBonusList[operation.user_id] = [operation.date];
     return { ...operation, hasBonus: true };
   }
