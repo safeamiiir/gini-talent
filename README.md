@@ -48,4 +48,4 @@ yarn test helpers.test.js
 
 ----
 complete requirement and description of the task:
-https://gist.github.com/PayseraGithub/ef12dabace4c00a3f450f9a9f259d3cd.js
+https://gist.github.com/PayseraGithub/ef12dabace4c00a3f450f9a9f259d3cd
