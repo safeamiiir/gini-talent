@@ -1,4 +1,4 @@
-# 💲[paysera](https://www.paysera.com/)
+# Gini Talent
 
 ## 💫 Summary
 
