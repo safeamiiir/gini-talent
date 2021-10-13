@@ -2,7 +2,7 @@
 
 ## 💫 Summary
 
-This is a test for ***paysera*** company.
+This is a test for ***gini-tanlent***.
 
 This project calculates the **transaction-fee calculator** for list of transactions based on some criteria.
 
